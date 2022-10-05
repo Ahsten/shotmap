@@ -10,17 +10,10 @@
   max-width: inherit;
 }
 
-.navbar{
-  display: flex;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: -1;
-  border-bottom: 1px solid #e2e2e2;
-  height: 45px;
-  align-items: center;
-  justify-content: center;
+.App{
+  display: grid;
+  grid-template-columns: 20% 80%;
+  column-gap: 2rem;
 }
 
  h1 {
@@ -29,7 +22,28 @@
 
 .shotmap {
   border: 1px solid #e2e2e2;
+  border-radius: 8px;
   color: black;
   text-align: center;
-  margin: 2rem;
+  background-color: white;
+}
+
+.sidebar{
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  color: black;
+  background-color: white;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.games{
+  list-style: none;
+}
+
+.game {
+  margin-top: 10px;
+  border-bottom: 1px solid black;
 }
