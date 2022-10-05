@@ -13,7 +13,7 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
 	padding: 0;
-	border: 0;
+	border: 1;
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
@@ -27,7 +27,7 @@ time, mark, audio, video {
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: white;
+  background-color: #fafbfe;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
