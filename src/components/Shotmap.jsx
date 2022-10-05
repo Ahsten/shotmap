@@ -1,92 +1,52 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+export default function Shotmap({shotData}){
+  function addCircle(x, y, team){
+    if(team === shotData?.gameData.teams.home.name){
+       if(x < 0){
+         x = x * -1
+         y = y * -1
+       }
+   
+       d3.select("#ice-hockey-svg")
+         .append("g")
+         .append("circle")
+         .attr("r", 1)
+         .attr("cx", xScale(x))
+         .attr("cy", yScale(y))
+         .attr("fill", "#42b883")
+         .attr("class", "shot")
+     } else {
+       if(x > 0){
+         x = x * -1
+         y = y * -1
+       }
+       d3.select("#ice-hockey-svg")
+         .append("g")
+         .append("circle")
+         .attr("r", 1)
+         .attr("cx", xScale(x))
+         .attr("cy", yScale(y))
+         .attr("fill", "#625ED7")
+         .attr("class", "shot")
+     }
+   }
+  
+  var xScale = d3.scaleLinear().domain([-100, 100]).range([0, 200]);
+  var yScale = d3.scaleLinear().domain([42.5,-42.5]).range([0, 85]);
 
-export default function Shotmap(){
-    const [homeTeam, setHomeTeam] = useState()
-    const [awayTeam, setAwayTeam] = useState()
-
-    async function getPlayData(){
-        const repsonse = await fetch('https://statsapi.web.nhl.com/api/v1/game/2021030125/feed/live', {mode: 'cors'})
-        const data = await repsonse.json()
-        const plays =  await data.liveData.plays.allPlays
-        const shotData = await plays.filter(filterShots) 
-        
-        let shots = shotData.map((shot) => {
-            return {
-                description: shot.result.description, 
-                shotType: shot.result.secondaryType, 
-                team: shot.team.name, 
-                player: shot.players[0].player.fullName, 
-                coordinates: shot.coordinates
-            }
-        });
-
-        shots.forEach(shot => {    
-            addCircle(shot.coordinates.x, shot.coordinates.y, shot.team)
-        });
+  function filterShots(play){
+    if(play.result.event === "Goal" || play.result.event === "Shot"){
+      return true;
     }
+  }
 
-    function filterShots(play){
-      if(play.result.event === "Goal" || play.result.event === "Shot"){
-        return true;
-      }
-    }
+  let data = shotData?.liveData.plays.allPlays.filter(filterShots)
 
-    var xScale = d3.scaleLinear().domain([-100, 100]).range([0, 200]);
-    var yScale = d3.scaleLinear().domain([42.5,-42.5]).range([0, 85]);
+  data?.forEach(shot => {    
+    addCircle(shot.coordinates.x, shot.coordinates.y, shot.team.name)
+  });
 
-    function addCircle(x, y, team){
-     if(team === "Toronto Maple Leafs"){
-        if(x < 0){
-          x = x * -1
-          y = y * -1
-        }
-
-        d3.select("#ice-hockey-svg")
-          .append("g")
-          .append("circle")
-          .attr("r", 1)
-          .attr("cx", xScale(x))
-          .attr("cy", yScale(y))
-          .attr("fill", "#42b883")
-      } else {
-        if(x > 0){
-          x = x * -1
-          y = y * -1
-        }
-        d3.select("#ice-hockey-svg")
-          .append("g")
-          .append("circle")
-          .attr("r", 1)
-          .attr("cx", xScale(x))
-          .attr("cy", yScale(y))
-          .attr("fill", "#625ED7")
-      }
-    }
-
-    useEffect(() => {
-      let ignore = false
-
-      async function getTeams(){
-        const response = await fetch('https://statsapi.web.nhl.com/api/v1/game/2021030125/feed/live', {mode: 'cors'})
-        const data = await response.json()
-        const teams = await data.gameData.teams
-        
-        if(!ignore){
-          setHomeTeam(teams.home.name)
-          setAwayTeam(teams.away.name) 
-        }
-      }
-
-      getTeams()
-      getPlayData()
-
-      return () => {
-        ignore = true
-      }
-    }, [])
-    
     return <div className="shotmap">
-      <h3>{awayTeam} vs {homeTeam}</h3>
         <svg id="ice-hockey-svg" xmlns="http://www.w3.org/2000/svg" viewBox=" -1 -1 202 87">
   <g id="transformations">
     <clipPath id="clipBorder">
