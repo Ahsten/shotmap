@@ -1,19 +1,8 @@
-import {
-    Card,
-    Table,
-    TableRow,
-    TableHead,
-    TableHeaderCell,
-    TabList,
-    Tab,
-    TableBody,
-    TableCell
-} from '@tremor/react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-export default function StatTable({id}){
-    const [showCard, setShowCard] = useState("home")
+export default function StatTable({id, setAway, setHome, home, away}){
+    const [active, setActive] = useState(true)
     const [homeTeam, setHomeTeam] = useState([])
     const [awayTeam, setAwayTeam] = useState([])
     
@@ -26,7 +15,18 @@ export default function StatTable({id}){
                 if(!ignore){
                     setHomeTeam(Object.values(data.teams.home.players))
                     setAwayTeam(Object.values(data.teams.away.players))
+                    setAway({
+                        name: data.teams.away.team.name, 
+                        goals: data.teams.away.teamStats.teamSkaterStats.goals,
+                        shots: data.teams.away.teamStats.teamSkaterStats.shots
+                    })
+                    setHome({
+                        name: data.teams.home.team.name, 
+                        goals: data.teams.home.teamStats.teamSkaterStats.goals,
+                        shots: data.teams.home.teamStats.teamSkaterStats.shots
+                    })
                 }
+                console.log(data)
             })
         return () => {
             ignore = true
@@ -40,53 +40,57 @@ export default function StatTable({id}){
     }
 
     return(
-        <Card marginTop='mt-3'>
-            <TabList defaultValue={"home"} handleSelect={(value) => setShowCard(value === 1)}>
-                <Tab value={1} text={"Leafs"}></Tab>
-                <Tab value={2} text={"Lightning"}></Tab>
-            </TabList>
-        {showCard === true ? (
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableHeaderCell textAlignment='text-center'> Name </TableHeaderCell>
-                        <TableHeaderCell textAlignment='text-center'> Goals </TableHeaderCell>
-                        <TableHeaderCell textAlignment='text-center'> Assists </TableHeaderCell>
-                        <TableHeaderCell textAlignment='text-center'> Points </TableHeaderCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
+        <div className='border-2 border-sky-500 rounded-lg row-span-3'>
+            <div className="tabs tabs-boxed">
+                <a className={active ? "tab tab-active" : "tab"} onClick={() => setActive(true)}>{home.name}</a> 
+                <a className={active ? "tab" : "tab tab-active"} onClick={() => setActive(false)}>{away.name}</a>
+            </div>
+        {active === true ? (
+            <table className='table table-compact w-full'>
+                <thead>
+                    <tr>
+                        <th className='w-1/2'> Name </th>
+                        <th> G </th>
+                        <th> A </th>
+                        <th> P </th>
+                        <th> TOI </th>
+                    </tr>
+                </thead>
+                <tbody>
                 {homeTeam?.filter(hasPlayed).map((player, index) => 
-                    <TableRow key={index}>
-                        <TableCell textAlignment='text-center'>{player?.person?.fullName}</TableCell>
-                        <TableCell textAlignment='text-center'>{player?.stats?.skaterStats?.goals}</TableCell>
-                        <TableCell textAlignment='text-center'>{player?.stats?.skaterStats?.assists}</TableCell>
-                        <TableCell textAlignment='text-center'>{player?.stats?.skaterStats?.assists + player?.stats?.skaterStats?.goals}</TableCell>
-                    </TableRow>
+                    <tr key={index} className="hover">
+                        <td>{player?.person?.fullName}</td>
+                        <td>{player?.stats?.skaterStats?.goals}</td>
+                        <td>{player?.stats?.skaterStats?.assists}</td>
+                        <td>{player?.stats?.skaterStats?.assists + player?.stats?.skaterStats?.goals}</td>
+                        <td>{player?.stats?.skaterStats?.timeOnIce}</td>
+                    </tr>
                     )}
-                </TableBody>
-            </Table> ) : (
-            <Table>
-            <TableHead>
-                <TableRow>
-                    <TableHeaderCell textAlignment='text-center'> Name </TableHeaderCell>
-                    <TableHeaderCell textAlignment='text-center'> Goals </TableHeaderCell>
-                    <TableHeaderCell textAlignment='text-center'> Assists </TableHeaderCell>
-                    <TableHeaderCell textAlignment='text-center'> Points </TableHeaderCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
+                </tbody>
+            </table> ) : (
+            <table className='table table-compact w-full'>
+            <thead>
+                <tr>
+                    <th className='w-1/2'> Name </th>
+                    <th> G </th>
+                    <th> A </th>
+                    <th> P </th>
+                    <th> TOI </th>
+                </tr>
+            </thead>
+            <tbody>
             {awayTeam?.filter(hasPlayed).map((player, index) => 
-                <TableRow key={index}>
-                    <TableCell textAlignment='text-center'>{player?.person?.fullName}</TableCell>
-                    <TableCell textAlignment='text-center'>{player?.stats?.skaterStats?.goals}</TableCell>
-                    <TableCell textAlignment='text-center'>{player?.stats?.skaterStats?.assists}</TableCell>
-                    <TableCell textAlignment='text-center'>{player?.stats?.skaterStats?.assists + player?.stats?.skaterStats?.goals}</TableCell>
-                </TableRow>
+                <tr key={index} className="hover">
+                    <td>{player?.person?.fullName}</td>
+                    <td>{player?.stats?.skaterStats?.goals}</td>
+                    <td>{player?.stats?.skaterStats?.assists}</td>
+                    <td>{player?.stats?.skaterStats?.assists + player?.stats?.skaterStats?.goals}</td>
+                    <td>{player?.stats?.skaterStats?.timeOnIce}</td>
+                </tr>
                 )}
-            </TableBody>
-        </Table>    
+            </tbody>
+        </table>    
         )}
-        </Card>
+        </div>
     )
 }
