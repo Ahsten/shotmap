@@ -1,33 +1,59 @@
 import { useEffect } from "react"
 export default function Shotmap({shotData}){
-  function addCircle(x, y, team){
+  function addCircle(x, y, team, result){
     if(team === shotData?.gameData.teams.home.name){
        if(x < 0){
          x = x * -1
          y = y * -1
        }
-   
-       d3.select("#ice-hockey-svg")
-         .append("g")
-         .append("circle")
-         .attr("r", 1)
-         .attr("cx", xScale(x))
-         .attr("cy", yScale(y))
-         .attr("fill", "#42b883")
-         .attr("class", "shot")
+       
+       if(result === "Goal"){
+        d3.select("#ice-hockey-svg")
+        .append("g")
+        .append("rect")
+        .attr("width", 2)
+        .attr("height", 2)
+        .attr("x", xScale(x))
+        .attr("y", yScale(y))
+        .attr("fill", "#42b883")
+        .attr("class", "shot")
+       } else {
+        d3.select("#ice-hockey-svg")
+        .append("g")
+        .append("circle")
+        .attr("r", 1)
+        .attr("cx", xScale(x))
+        .attr("cy", yScale(y))
+        .attr("fill", "#42b883")
+        .attr("class", "shot")
+       }
+       
      } else {
        if(x > 0){
          x = x * -1
          y = y * -1
        }
-       d3.select("#ice-hockey-svg")
-         .append("g")
-         .append("circle")
-         .attr("r", 1)
-         .attr("cx", xScale(x))
-         .attr("cy", yScale(y))
-         .attr("fill", "#625ED7")
-         .attr("class", "shot")
+
+       if(result === "Goal"){
+        d3.select("#ice-hockey-svg")
+        .append("g")
+        .append("rect")
+        .attr("width", 2)
+        .attr("height", 2)
+        .attr("x", xScale(x))
+        .attr("y", yScale(y))
+        .attr("fill", "#625ED7")
+        .attr("class", "shot")
+       } else {
+        d3.select("#ice-hockey-svg")
+        .append("g")
+        .append("circle")
+        .attr("r", 1)
+        .attr("cx", xScale(x))
+        .attr("cy", yScale(y))
+        .attr("fill", "#625ED7")
+        .attr("class", "shot")
+       }
      }
    }
   
@@ -40,13 +66,15 @@ export default function Shotmap({shotData}){
     }
   }
 
-  let data = shotData?.liveData.plays.allPlays.filter(filterShots)
+  useEffect(() => {
+    let data = shotData?.liveData.plays.allPlays.filter(filterShots)
+    
+    data?.forEach(shot => {    
+      addCircle(shot.coordinates.x, shot.coordinates.y, shot.team.name, shot.result.event)
+    });
+  }, [shotData])
 
-  data?.forEach(shot => {    
-    addCircle(shot.coordinates.x, shot.coordinates.y, shot.team.name)
-  });
-
-    return <div className="shotmap">
+    return <div className="border-2 border-sky-500 rounded-lg h-fit row-span-3 col-span-2">
         <svg id="ice-hockey-svg" xmlns="http://www.w3.org/2000/svg" viewBox=" -1 -1 202 87">
   <g id="transformations">
     <clipPath id="clipBorder">
