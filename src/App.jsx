@@ -1,13 +1,15 @@
 import './App.css'
 import { useEffect, useState } from "react"
-import StatTable from './components/StatTable'
 import Shotmap from './components/Shotmap'
-import Sidebar from './components/Sidebar'
-import '@tremor/react/dist/esm/tremor.css';
+import Navbar from './components/Navbar'
+import StatTable from './components/StatTable'
+import Scorebug from './components/Scorebug'
 
 function App() {
   const [gameData, setGameData] = useState()
   const [gameID, setGameID] = useState("2021030125")
+  const [home, setHome] = useState("TOR")
+  const [away, setAway] = useState("TBL")
 
   useEffect(() => {
     d3.selectAll(".shot").remove()
@@ -19,11 +21,12 @@ function App() {
   }, [gameID])
 
   return (
-    <div className="App">
-      <Sidebar onSelect={setGameID}/>
-      <div className="data-grid">
+    <div className="bg-base-100">
+      <Navbar onSelect={setGameID} homeTeam={home} awayTeam={away}/>
+      <div className='grid grid-cols-3 grid-rows-10 gap-2 p-4'>
+        <Scorebug home={home} away={away}/>
         <Shotmap shotData={gameData} gameID={gameID} setGameData={setGameData}/>
-        <StatTable id={gameID} />
+        <StatTable id={gameID} setAway={setAway} setHome={setHome} home={home} away={away}/>
       </div>
     </div>
   )
