@@ -68,13 +68,13 @@ export default function Shotmap({shotData}){
 
   useEffect(() => {
     let data = shotData?.liveData.plays.allPlays.filter(filterShots)
-    
+
     data?.forEach(shot => {    
       addCircle(shot.coordinates.x, shot.coordinates.y, shot.team.name, shot.result.event)
     });
   }, [shotData])
 
-    return <div className="border-2 border-sky-500 rounded-lg h-fit row-span-3 col-span-2">
+    return <div className="bg-base-100 rounded-lg h-fit shadow">
         <svg id="ice-hockey-svg" xmlns="http://www.w3.org/2000/svg" viewBox=" -1 -1 202 87">
   <g id="transformations">
     <clipPath id="clipBorder">

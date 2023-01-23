@@ -16,14 +16,14 @@ function App() {
 
     fetch(`https://statsapi.web.nhl.com/api/v1/game/${gameID}/feed/live`)
     .then(res => res.json())
-    .then(data => setGameData(data))
+    .then(data => {setGameData(data)})
     
   }, [gameID])
 
   return (
-    <div className="bg-base-100">
+    <div className="bg-neutral">
       <Navbar onSelect={setGameID} homeTeam={home} awayTeam={away}/>
-      <div className='grid grid-cols-3 grid-rows-10 gap-2 p-4'>
+      <div className='grid-container'>
         <Scorebug home={home} away={away}/>
         <Shotmap shotData={gameData} gameID={gameID} setGameData={setGameData}/>
         <StatTable id={gameID} setAway={setAway} setHome={setHome} home={home} away={away}/>

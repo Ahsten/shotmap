@@ -2,26 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-  max-width: 100%;
-  max-height: 100%;
-  padding: 2rem;
-}
 
 #ice-hockey-svg {
-  padding: 1.1rem;
+  padding: 0.5rem;
   max-height: inherit;
   max-width: inherit;
-}
-
-.App{
-  display: grid;
-  grid-template-columns: 20% 80%;
-  column-gap: 2rem;
-}
-
- h1 {
-  color: black;
 }
 
 .shotmap {
@@ -29,25 +14,14 @@
   border-radius: 8px;
   color: black;
   text-align: center;
-  background-color: white;
 }
 
-.sidebar{
-  border: 1px solid #e2e2e2;
-  border-radius: 8px;
-  color: black;
-  background-color: white;
-  width: 100%;
-  top: 0;
-  left: 0;
-  bottom: 0;
+.grid-container{
+  display: grid;
+  grid-gap: 1rem;
+  margin: 1rem;
 }
 
-.games{
-  list-style: none;
-}
-
-.game {
-  margin-top: 10px;
-  border-bottom: 1px solid black;
+tr:hover{
+  color: #3ABFF8
 }
