@@ -42,18 +42,18 @@ export default function StatTable({id, setAway, setHome, home, away}){
     return(
         <div className='shadow'>
             <div className="tabs tabs-boxed rounded-b-none flex flex-nowrap ">
-                <a className={active ? "tab tab-active" : "tab"} onClick={() => setActive(true)}>{home.name}</a> 
-                <a className={active ? "tab" : "tab tab-active"} onClick={() => setActive(false)}>{away.name}</a>
+                <a className={active ? "tab tab-active" : "tab"} onClick={() => setActive(true)}>{home?.name}</a> 
+                <a className={active ? "tab" : "tab tab-active"} onClick={() => setActive(false)}>{away?.name}</a>
             </div>
         {active === true ? (
             <table className='table table-compact w-full'>
                 <thead className='rounded-none'>
                     <tr className='rounded-none'>
-                        <th className='w-1/2 rounded-none'> Name </th>
-                        <th> G </th>
-                        <th> A </th>
-                        <th> P </th>
-                        <th className='rounded-none'> TOI </th>
+                        <th data-testid='name' className='w-1/2 rounded-none'> Name </th>
+                        <th data-testid='goals'> G </th>
+                        <th data-testid='assists'> A </th>
+                        <th data-testid='points'> P </th>
+                        <th data-testid='time' className='rounded-none'> TOI </th>
                     </tr>
                 </thead>
                 <tbody>
