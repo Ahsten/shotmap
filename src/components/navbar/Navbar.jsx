@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 
 export default function Navbar({onSelect, homeTeam, awayTeam}){
   const [schedule, setSchedule] = useState(null)
-  const [date, setDate] = useState(null)
+  const [date, setDate] = useState("2023-01-29")
 
   function getGame(game){
     onSelect(game.toString())
@@ -18,7 +18,7 @@ export default function Navbar({onSelect, homeTeam, awayTeam}){
         const data = await response.json()
         const sched = await data.dates[0].games
         const games = sched.map((game, index) => <li key={index} >
-            <a onClick={()=> getGame(game.gamePk)} className="flex-1 gap-4">{game.teams.away.team.name}<br/>
+            <a onClick={()=> getGame(game.gamePk)} className="flex-1 gap-4" data-testid="game">{game.teams.away.team.name}<br/>
                 {game.teams.home.team.name}
                 </a>
             </li>)
@@ -38,6 +38,6 @@ export default function Navbar({onSelect, homeTeam, awayTeam}){
             {schedule}
       </ul>
     </div>
-    <input type="date" onChange={(e) => handleGetDay(e)} />
+    <input type="date" onChange={(e) => handleGetDay(e)} data-testid="date-picker"/>
   </div>
 }
