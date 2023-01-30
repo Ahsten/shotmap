@@ -1,9 +1,9 @@
 import './App.css'
 import { useEffect, useState } from "react"
-import Shotmap from './components/Shotmap'
-import Navbar from './components/Navbar'
-import StatTable from './components/StatTable'
-import Scorebug from './components/Scorebug'
+import Shotmap from './components/shotmap/Shotmap'
+import Navbar from './components/navbar/Navbar'
+import StatTable from './components/stat-table/StatTable'
+import Scorebug from './components/scorebug/Scorebug'
 
 function App() {
   const [gameData, setGameData] = useState()
