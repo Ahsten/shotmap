@@ -58,7 +58,7 @@ export default function StatTable({id, setAway, setHome, home, away}){
                 </thead>
                 <tbody>
                 {homeTeam?.filter(hasPlayed).map((player, index) => 
-                    <tr key={index} className="hover">
+                    <tr key={index} className="hover" id={player.person.id}>
                         <td>{player?.person?.fullName}</td>
                         <td>{player?.stats?.skaterStats?.goals}</td>
                         <td>{player?.stats?.skaterStats?.assists}</td>
@@ -80,7 +80,7 @@ export default function StatTable({id, setAway, setHome, home, away}){
             </thead>
             <tbody>
             {awayTeam?.filter(hasPlayed).map((player, index) => 
-                <tr key={index} className="hover">
+                <tr key={index} className="hover" id={player.person.id}>
                     <td>{player?.person?.fullName}</td>
                     <td>{player?.stats?.skaterStats?.goals}</td>
                     <td>{player?.stats?.skaterStats?.assists}</td>
