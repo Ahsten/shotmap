@@ -5,6 +5,7 @@ import Navbar from './components/navbar/Navbar'
 import StatTable from './components/stat-table/StatTable'
 import Scorebug from './components/scorebug/Scorebug'
 import PlayerCard from './components/player-card/PlayerCard'
+import Sidebar from './components/sidebar/sidebar'
 
 function App() {
   const [gameData, setGameData] = useState()
@@ -17,23 +18,23 @@ function App() {
 
     fetch(`https://statsapi.web.nhl.com/api/v1/game/${gameID}/feed/live`)
     .then(res => res.json())
-    .then(data => {setGameData(data)})
-    console.log(gameData)
-    
+    .then(data => {setGameData(data)})    
   }, [gameID])
 
   return (
-    <div className="bg-neutral">
-      <Navbar onSelect={setGameID} homeTeam={home} awayTeam={away}/>
-      <div className='grid-container'>
-        <Scorebug home={home} away={away}/>
+    <div className="bg-neutral drawer">
+      <input id="sidebar" type="checkbox" class="drawer-toggle"/>
+      <div className='drawer-content grid-container'>
+        <Navbar />
+        <Scorebug home={home} away={away} />
         <Shotmap shotData={gameData} gameID={gameID} setGameData={setGameData}/>
         <StatTable id={gameID} setAway={setAway} setHome={setHome} home={home} away={away}/>
+        <div className="grid grid-cols-2 gap-4">
+            <PlayerCard players={gameData?.liveData.boxscore.teams.home.players}/>
+            <PlayerCard players={gameData?.liveData.boxscore.teams.away.players}/>
+        </div>
       </div>
-      <div className="flex gap-4 m-4">
-          <PlayerCard players={gameData?.liveData.boxscore.teams.home.players}/>
-          <PlayerCard players={gameData?.liveData.boxscore.teams.away.players}/>
-      </div>
+      <Sidebar onSelect={setGameID} homeTeam={home} awayTeam={away} />
     </div>
   )
 }
