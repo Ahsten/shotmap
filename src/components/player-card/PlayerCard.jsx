@@ -11,7 +11,7 @@ export default function PlayerCard({ players }){
         setPlayer(selectedPlayer)
     }
 
-    return <div className="card card-bordered bg-base-100 w-1/2">
+    return <div className="card card-bordered bg-base-100">
             <select className="select" onChange={(e) => handleChange(e.target.value)}>
             <option disabled selected>Select a player</option>
             {allPlayers?.map(player => <option value={player.person.fullName}>{player.person.fullName}</option>)}
