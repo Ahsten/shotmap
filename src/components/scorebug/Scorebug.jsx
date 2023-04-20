@@ -1,5 +1,5 @@
 export default function Scorebug({home, away}){
-  return <div className="stats shadow max-h-28 overflow-visible">
+  return <div className="stats shadow max-h-28 overflow-visible m-4">
     <div className="stat">
       <div className="stat-title">{away.name}</div>
       <div className="stat-value">{away.goals}</div>

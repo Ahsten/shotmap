@@ -74,7 +74,7 @@ export default function Shotmap({shotData}){
     });
   }, [shotData])
 
-    return <div className="bg-base-100 rounded-lg h-fit shadow">
+    return <div className="bg-base-100 rounded-lg h-fit shadow m-4">
         <svg id="ice-hockey-svg" xmlns="http://www.w3.org/2000/svg" viewBox=" -1 -1 202 87">
   <g id="transformations">
     <clipPath id="clipBorder">

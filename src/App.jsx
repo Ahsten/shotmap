@@ -6,6 +6,7 @@ import StatTable from './components/stat-table/StatTable'
 import Scorebug from './components/scorebug/Scorebug'
 import PlayerCard from './components/player-card/PlayerCard'
 import Sidebar from './components/sidebar/sidebar'
+import { data } from 'autoprefixer'
 
 function App() {
   const [gameData, setGameData] = useState()
@@ -21,6 +22,8 @@ function App() {
     .then(data => {setGameData(data)})    
   }, [gameID])
 
+  console.log(gameData)
+
   return (
     <div className="bg-neutral drawer">
       <input id="sidebar" type="checkbox" class="drawer-toggle"/>
@@ -29,7 +32,7 @@ function App() {
         <Scorebug home={home} away={away} />
         <Shotmap shotData={gameData} gameID={gameID} setGameData={setGameData}/>
         <StatTable id={gameID} setAway={setAway} setHome={setHome} home={home} away={away}/>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 m-4">
             <PlayerCard players={gameData?.liveData.boxscore.teams.home.players}/>
             <PlayerCard players={gameData?.liveData.boxscore.teams.away.players}/>
         </div>

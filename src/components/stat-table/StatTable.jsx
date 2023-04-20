@@ -26,7 +26,6 @@ export default function StatTable({id, setAway, setHome, home, away}){
                         shots: data.teams.home.teamStats.teamSkaterStats.shots
                     })
                 }
-                console.log(data)
             })
         return () => {
             ignore = true
@@ -46,7 +45,7 @@ export default function StatTable({id, setAway, setHome, home, away}){
     }
 
     return(
-        <div className='shadow'>
+        <div className='shadow m-4'>
             <div className="tabs tabs-boxed rounded-b-none flex flex-nowrap ">
                 <a className={active ? "tab tab-active" : "tab"} onClick={() => setActive(true)}>{home?.name}</a> 
                 <a className={active ? "tab" : "tab tab-active"} onClick={() => setActive(false)}>{away?.name}</a>
